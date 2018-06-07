@@ -34,16 +34,11 @@ void UDetectInteractable::TickComponent(float DeltaTime, ELevelTick TickType, FA
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	FocusedActor = FindActorInLineOfSight();
-	
+	HandleFocus();
 }
 
 void UDetectInteractable::Interact()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Interact Called"));
-	FString ActorName = FocusedActor->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("shite %s"), *ActorName);
-
 	if(FocusedActor)
 	{
 		FString ActorName = FocusedActor->GetName();
@@ -59,6 +54,45 @@ void UDetectInteractable::Interact()
 
 void UDetectInteractable::HandleFocus()
 {
+	AActor * FoundActor = FindActorInLineOfSight();
+
+	if(FoundActor)
+	{
+		if(FoundActor != FocusedActor)
+		{
+		
+			UE_LOG(LogTemp, Warning, TEXT("Found: %s"), *(FoundActor->GetName()))
+			if(FocusedActor)
+			{
+				IInteractable * InteractableActor = Cast<IInteractable>(FocusedActor);
+				if(InteractableActor)
+				{
+					InteractableActor->Execute_EndFocus(FocusedActor);
+				}
+			}
+
+			FocusedActor = FoundActor;
+
+			IInteractable * InteractableActor = Cast<IInteractable>(FocusedActor);
+			if (InteractableActor)
+			{
+				InteractableActor->Execute_StartFocus(FocusedActor);
+			}
+		}
+	}
+	else
+	{
+		if(FocusedActor)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Lost"))
+			IInteractable * InteractableActor = Cast<IInteractable>(FocusedActor);
+			if (InteractableActor)
+			{
+				InteractableActor->Execute_EndFocus(FocusedActor);
+			}
+		}
+		FocusedActor = nullptr;
+	}
 }
 
 AActor * UDetectInteractable::FindActorInLineOfSight()
@@ -79,7 +113,7 @@ AActor * UDetectInteractable::FindActorInLineOfSight()
 	);
 
 	/* DRAW DEBUG LINE */
-	DrawDebugLine(GetWorld(), PlayerViewPointLocation, RaycastLineEnd, FColor::Blue, false);
+	//DrawDebugLine(GetWorld(), PlayerViewPointLocation, RaycastLineEnd, FColor::Blue, false);
 
 	return HitResult.GetActor();
 }

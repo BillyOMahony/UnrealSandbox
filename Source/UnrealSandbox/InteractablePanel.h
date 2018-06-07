@@ -35,5 +35,14 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
 	void EndFocus();
 	virtual void EndFocus_Implementation() override;
-	
+
+	UFUNCTION(BlueprintCallable, Category = "Interaction")
+		void SetInteractText(UChildActorComponent * InteractText);
+
+private:
+	UPROPERTY(EditAnywhere)
+	UChildActorComponent * InteractText = nullptr;
+
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent * Panel = nullptr;
 };

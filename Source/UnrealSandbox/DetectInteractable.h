@@ -25,11 +25,20 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	/*
+	 *	Calls Execute_Interact() on the FocusedActor if not null
+	 */
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
 	void Interact();
 
+	/*
+	 *	Starts and Ends focus of interactable actors when in view
+	 */
 	void HandleFocus();
 
+	/*
+	 *	Raycasts ahead of camera and returns the first actor found.
+	 */
 	AActor* FindActorInLineOfSight();
 
 private:
