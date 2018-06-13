@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Door.h"
+#include "DoorActor.h"
 #include "SlidingDoor.generated.h"
 
 UCLASS()
-class UNREALSANDBOX_API ASlidingDoor : public AActor, public IDoor
+class UNREALSANDBOX_API ASlidingDoor : public ADoorActor
 {
-	GENERATED_BODY()
+GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
@@ -25,8 +25,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	void InteractWithDoor();
 	virtual void InteractWithDoor_Implementation() override;
 
 private:

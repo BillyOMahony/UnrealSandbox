@@ -48,5 +48,5 @@ private:
 	UStaticMeshComponent * Panel = nullptr;
 
 	UPROPERTY(EditAnywhere)
-	ASlidingDoor * Door = nullptr;
+	ADoorActor * Door = nullptr;
 };
