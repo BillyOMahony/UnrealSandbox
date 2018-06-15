@@ -12,8 +12,8 @@ UCLASS()
 class UNREALSANDBOX_API AInteractablePanel : public AActor, public IInteractable
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AInteractablePanel();
 
@@ -21,20 +21,20 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	void OnInteract(AActor* Caller);
+		void OnInteract(AActor* Caller);
 	virtual void OnInteract_Implementation(AActor* Caller) override;
-	
+
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	void StartFocus();
+		void StartFocus();
 	virtual void StartFocus_Implementation() override;
-	
+
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	void EndFocus();
+		void EndFocus();
 	virtual void EndFocus_Implementation() override;
 
 	UFUNCTION(BlueprintCallable, Category = "Interaction")
@@ -42,11 +42,11 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere)
-	UChildActorComponent * InteractText = nullptr;
+		UChildActorComponent * InteractText = nullptr;
 
 	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent * Panel = nullptr;
+		UStaticMeshComponent * Panel = nullptr;
 
 	UPROPERTY(EditAnywhere)
-	ADoorActor * Door = nullptr;
+	ARemoteInteractableActor* ActorToInteractWith = nullptr;
 };

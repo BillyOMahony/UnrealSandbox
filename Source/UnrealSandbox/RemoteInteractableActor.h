@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Door.h"
-#include "DoorActor.generated.h"
+#include "RemoteInteractable.h"
+#include "RemoteInteractableActor.generated.h"
 
 UCLASS()
-class UNREALSANDBOX_API ADoorActor : public AActor, public IDoor
+class UNREALSANDBOX_API ARemoteInteractableActor : public AActor, public IRemoteInteractable
 {
 GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ADoorActor();
+	ARemoteInteractableActor();
 
 protected:
 	// Called when the game starts or when spawned
@@ -25,7 +25,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	void InteractWithDoor();
+	void Interact(AActor* Caller);
 
-	virtual void InteractWithDoor_Implementation() override;
+	virtual void Interact_Implementation(AActor* Caller) override;
+	
 };

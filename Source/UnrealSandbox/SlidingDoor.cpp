@@ -14,14 +14,24 @@ ASlidingDoor::ASlidingDoor()
 
 void ASlidingDoor::Initialise()
 {
-	DoorOpenPosition = GetActorLocation();
-	if (DoorOpensLeft)
+	DoorClosedPosition = GetActorLocation();
+	switch(DoorOpenDirection)
 	{
-		DoorClosedPosition = DoorOpenPosition + GetActorRightVector() * -DoorMovementDistance;
-	}
-	else
-	{
-		DoorClosedPosition = DoorOpenPosition + GetActorRightVector() * DoorMovementDistance;
+	case EDoorOpenDirection::DOD_Down:
+		DoorOpenPosition = DoorClosedPosition + GetActorUpVector() * -DoorMovementDistance;
+		break;
+
+	case EDoorOpenDirection::DOD_Up:
+		DoorOpenPosition = DoorClosedPosition + GetActorUpVector() * DoorMovementDistance;
+		break;
+
+	case EDoorOpenDirection::DOD_Left:
+		DoorOpenPosition = DoorClosedPosition + GetActorRightVector() * -DoorMovementDistance;
+		break;
+
+	case EDoorOpenDirection::DOD_Right:
+		DoorOpenPosition = DoorClosedPosition + GetActorRightVector() * DoorMovementDistance;
+		break;
 	}
 }
 
@@ -56,19 +66,19 @@ void ASlidingDoor::Tick(float DeltaTime)
 
 }
 
-void ASlidingDoor::InteractWithDoor_Implementation()
+void ASlidingDoor::Interact_Implementation(AActor* Caller)
 {
 	if(!ActionInProgress)
 	{
 		if(!DoorOpen)
 		{
-			StartPos = DoorOpenPosition;
-			EndPos = DoorClosedPosition;
+			StartPos = DoorClosedPosition;
+			EndPos = DoorOpenPosition;
 		}
 		else
 		{
-			StartPos = DoorClosedPosition;
-			EndPos = DoorOpenPosition;
+			StartPos = DoorOpenPosition;
+			EndPos = DoorClosedPosition;
 		}
 		ActionInProgress = true;
 		CurrentTime = 0.f;

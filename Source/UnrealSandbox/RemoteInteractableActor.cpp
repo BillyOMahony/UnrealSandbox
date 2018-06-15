@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "DoorActor.h"
+#include "RemoteInteractableActor.h"
 
 
 // Sets default values
-ADoorActor::ADoorActor()
+ARemoteInteractableActor::ARemoteInteractableActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -12,21 +12,21 @@ ADoorActor::ADoorActor()
 }
 
 // Called when the game starts or when spawned
-void ADoorActor::BeginPlay()
+void ARemoteInteractableActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void ADoorActor::Tick(float DeltaTime)
+void ARemoteInteractableActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-void ADoorActor::InteractWithDoor_Implementation()
+void ARemoteInteractableActor::Interact_Implementation(AActor* Caller)
 {
-	UE_LOG(LogTemp, Warning, TEXT("InteractWithDoor Called"));
+	UE_LOG(LogTemp, Warning, TEXT("%s has been interacted with by %s"), *GetName());
 }
 

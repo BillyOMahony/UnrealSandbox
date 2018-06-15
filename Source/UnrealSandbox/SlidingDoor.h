@@ -4,13 +4,25 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "DoorActor.h"
+#include "RemoteInteractableActor.h"
 #include "SlidingDoor.generated.h"
 
-UCLASS()
-class UNREALSANDBOX_API ASlidingDoor : public ADoorActor
+/*
+ *	The direction the door opens relative to its position
+ */
+UENUM(BlueprintType)		
+enum class EDoorOpenDirection : uint8
 {
-GENERATED_BODY()
+	DOD_Up		UMETA(DisplayName = "Up"),
+	DOD_Down	UMETA(DisplayName = "Down"),
+	DOD_Left	UMETA(DisplayName = "Left"),
+	DOD_Right	UMETA(DisplayName = "Right")
+};
+
+UCLASS()
+class UNREALSANDBOX_API ASlidingDoor : public ARemoteInteractableActor
+{
+	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
@@ -25,14 +37,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void InteractWithDoor_Implementation() override;
+	virtual void Interact_Implementation(AActor* Caller) override;
 
 private:
 	UPROPERTY(EditDefaultsOnly)
 	float DoorMovementDistance = 150.f;
 
 	UPROPERTY(EditAnywhere)
-	bool DoorOpensLeft = true;
+	EDoorOpenDirection DoorOpenDirection = EDoorOpenDirection::DOD_Left;
 
 	UPROPERTY(EditAnywhere)
 	float DoorOpenTime = 3.f;

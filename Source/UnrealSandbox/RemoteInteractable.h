@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "Door.generated.h"
+#include "RemoteInteractable.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
-class UDoor : public UInterface
+class URemoteInteractable : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -16,13 +16,13 @@ class UDoor : public UInterface
 /**
  * 
  */
-class UNREALSANDBOX_API IDoor
+class UNREALSANDBOX_API IRemoteInteractable
 {
 	GENERATED_BODY()
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-	void InteractWithDoor();
+	void Interact(AActor * Caller);
 	
 };

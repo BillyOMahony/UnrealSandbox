@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "InteractablePanel.h"
-#include "Door.h"
 
 // Sets default values
 AInteractablePanel::AInteractablePanel()
@@ -30,7 +29,7 @@ void AInteractablePanel::Tick(float DeltaTime)
 
 void AInteractablePanel::OnInteract_Implementation(AActor * Caller)
 {
-	Door->Execute_InteractWithDoor(Door);
+	ActorToInteractWith->Execute_Interact(ActorToInteractWith, this);
 }
 
 
