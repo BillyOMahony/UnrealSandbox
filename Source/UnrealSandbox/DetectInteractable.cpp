@@ -60,8 +60,6 @@ void UDetectInteractable::HandleFocus()
 	{
 		if(FoundActor != FocusedActor)
 		{
-		
-			UE_LOG(LogTemp, Warning, TEXT("Found: %s"), *(FoundActor->GetName()))
 			if(FocusedActor)
 			{
 				IInteractable * InteractableActor = Cast<IInteractable>(FocusedActor);
@@ -84,7 +82,6 @@ void UDetectInteractable::HandleFocus()
 	{
 		if(FocusedActor)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Lost"))
 			IInteractable * InteractableActor = Cast<IInteractable>(FocusedActor);
 			if (InteractableActor)
 			{
