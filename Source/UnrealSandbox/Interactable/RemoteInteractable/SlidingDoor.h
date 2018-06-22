@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Interactable/RemoteInteractable/RemoteInteractableActor.h"
+#include "RemoteInteractableActor.h"
 #include "SlidingDoor.generated.h"
 
 /*
