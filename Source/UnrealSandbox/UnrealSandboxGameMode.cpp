@@ -1,8 +1,8 @@
 // Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
 
 #include "UnrealSandboxGameMode.h"
-#include "UnrealSandboxHUD.h"
-#include "UnrealSandboxCharacter.h"
+#include "FirstPersonCharacter/UnrealSandboxHUD.h"
+#include "FirstPersonCharacter/UnrealSandboxCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 AUnrealSandboxGameMode::AUnrealSandboxGameMode()
