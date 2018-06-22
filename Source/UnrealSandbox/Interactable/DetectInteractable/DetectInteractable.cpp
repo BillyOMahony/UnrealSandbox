@@ -2,7 +2,7 @@
 
 #include "DetectInteractable.h"
 #include "Runtime/Engine/Classes/GameFramework/Actor.h"
-#include "Interactable.h"
+#include "Interactable/Interactable.h"
 #include "Runtime/Engine/Public/DrawDebugHelpers.h"
 
 
