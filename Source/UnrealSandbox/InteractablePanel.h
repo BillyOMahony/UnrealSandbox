@@ -41,12 +41,12 @@ public:
 		void SetInteractText(UChildActorComponent * InteractText);
 
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Interaction")
 		UChildActorComponent * InteractText = nullptr;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Interaction")
 		UStaticMeshComponent * Panel = nullptr;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Interaction")
 	ARemoteInteractableActor* ActorToInteractWith = nullptr;
 };
