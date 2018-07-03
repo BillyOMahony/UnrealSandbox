@@ -24,15 +24,14 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
 	virtual void Interact_Implementation(AActor* Caller) override;
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Setup")
-		UPointLightComponent * HoloPointLight;
+	UPointLightComponent * HoloPointLight;
 
 	UPROPERTY(EditAnywhere, Category = "Setup")
-		UStaticMeshComponent * TargetMesh;
+	UStaticMeshComponent * TargetMesh;
 
 	bool ActorHidden = false;
 };

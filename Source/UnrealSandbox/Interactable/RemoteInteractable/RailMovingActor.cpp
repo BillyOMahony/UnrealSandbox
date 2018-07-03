@@ -76,7 +76,9 @@ void ARailMovingActor::Tick(float DeltaTime)
 
 void ARailMovingActor::Interact_Implementation(AActor * Caller)
 {
-	InProgress = true;
-	CurrentTime = 0.f;
+	if (!InProgress) {
+		InProgress = true;
+		CurrentTime = 0.f;
+	}
 }
 
