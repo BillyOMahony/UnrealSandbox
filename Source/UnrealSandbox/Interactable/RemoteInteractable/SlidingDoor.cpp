@@ -9,11 +9,7 @@ ASlidingDoor::ASlidingDoor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	Door = CreateDefaultSubobject<UStaticMeshComponent>(FName(TEXT("Door")));
-	if(DoorCenter)
-	{
-		DoorCenter = CreateDefaultSubobject<UStaticMeshComponent>(FName(TEXT("DoorCenter")));
-	}
+
 }
 
 void ASlidingDoor::Initialise()
@@ -45,6 +41,14 @@ void ASlidingDoor::Initialise()
 		DoorOpenPosition = DoorClosedPosition + GetActorForwardVector() * DoorMovementDistance;
 		break;
 	}
+
+	if (DoorCenter)
+	{
+		ClosedRotation = DoorCenter->GetComponentRotation();
+		FString ClosedRotString = ClosedRotation.ToString();
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ClosedRotString);
+		OpenRotation = ClosedRotation + FRotator(180, 0, 0);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -54,12 +58,19 @@ void ASlidingDoor::BeginPlay()
 	Initialise();
 }
 
+
 // Called every frame
 void ASlidingDoor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(ActionInProgress)
+	if(RotationInProgress)
+	{
+		RotateCenter(DeltaTime);
+	}
+
+	// TODO Tidy this
+	if(ActionInProgress && (!RotationInProgress || !RotatingFirst))
 	{
 		CurrentTime += DeltaTime;
 		float alpha = CurrentTime / DoorOpenTime;
@@ -67,6 +78,14 @@ void ASlidingDoor::Tick(float DeltaTime)
 		if(alpha > 1)
 		{
 			alpha = 1;
+			if(DoorCenter)
+			{
+				if(!RotatingFirst)
+				{
+					CurrentTime = 0;
+					RotationInProgress = true;
+				}
+			}
 			ActionInProgress = false;
 			DoorOpen = !DoorOpen;
 		}
@@ -80,20 +99,58 @@ void ASlidingDoor::Tick(float DeltaTime)
 
 void ASlidingDoor::Interact_Implementation(AActor* Caller)
 {
-	if(!ActionInProgress)
+	if(!ActionInProgress && !RotationInProgress)
 	{
 		if(!DoorOpen)
 		{
+			if(DoorCenter)
+			{
+				StartRotation = ClosedRotation;
+				EndRotation = OpenRotation;
+				RotationInProgress = true;
+				RotatingFirst = true;
+			}
 			StartPos = DoorClosedPosition;
 			EndPos = DoorOpenPosition;
 		}
 		else
 		{
+			if (DoorCenter)
+			{
+				StartRotation = OpenRotation;
+				EndRotation = ClosedRotation;
+				RotationInProgress = false;
+				RotatingFirst = false;
+			}
 			StartPos = DoorOpenPosition;
 			EndPos = DoorClosedPosition;
 		}
 		ActionInProgress = true;
 		CurrentTime = 0.f;
+
+		UE_LOG(LogTemp, Warning, TEXT("DoorStatus: %i"), RotatingFirst);
 	}
+}
+
+void ASlidingDoor::RotateCenter(float DeltaTime)
+{
+	CurrentTime += DeltaTime;
+	float alpha = CurrentTime / DoorCenterRotationTime;
+
+	if (alpha > 1)
+	{
+		alpha = 1;
+		RotationInProgress = false;
+		CurrentTime = 0;
+	}
+
+	FRotator DoorRotation = FMath::Lerp(StartRotation, EndRotation, alpha);
+
+	DoorCenter->SetWorldRotation(DoorRotation);
+}
+
+void ASlidingDoor::SetDoorCenter(USceneComponent * doorCenter)
+{
+	DoorCenter = doorCenter;
 }
 

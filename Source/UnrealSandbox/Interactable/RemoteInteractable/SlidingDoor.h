@@ -34,6 +34,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	void RotateCenter(float DeltaTime);
 
 public:	
 	// Called every frame
@@ -41,14 +42,17 @@ public:
 
 	virtual void Interact_Implementation(AActor* Caller) override;
 
+	UFUNCTION(BlueprintCallable)
+	void SetDoorCenter(USceneComponent* doorCenter);
+
 private:
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float DoorMovementDistance = 150.f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Setup")
 	EDoorOpenDirection DoorOpenDirection = EDoorOpenDirection::DOD_Left;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Setup")
 	float DoorOpenTime = 3.f;
 
 	float CurrentTime = 0.f;
@@ -59,12 +63,22 @@ private:
 	bool ActionInProgress = false;
 	bool DoorOpen = false;
 
-	UPROPERTY(EditAnywhere, Category = "Setup")
-	UStaticMeshComponent* Door = nullptr;
-
-	UPROPERTY(EditAnywhere, Category = "Setup")
-	UStaticMeshComponent* DoorCenter = nullptr;
+	UPROPERTY(EditAnywhere)
+	USceneComponent* DoorCenter = nullptr;
 
 	FVector StartPos;
 	FVector EndPos;
+
+	// If Door Center
+	FRotator OpenRotation;
+	FRotator ClosedRotation;
+
+	FRotator StartRotation;
+	FRotator EndRotation;
+
+	UPROPERTY(EditAnywhere, Category = "Setup Center")
+	float DoorCenterRotationTime = 2.f;
+
+	bool RotationInProgress = false;
+	bool RotatingFirst = true;
 };
