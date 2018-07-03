@@ -59,6 +59,14 @@ void ASlidingDoor::BeginPlay()
 }
 
 
+void ASlidingDoor::ActivateLights()
+{
+	for (int i = 0; i<DoorLights.Num(); i++)
+	{
+		DoorLights[i]->Execute_Interact(DoorLights[i], this);
+	}
+}
+
 // Called every frame
 void ASlidingDoor::Tick(float DeltaTime)
 {
@@ -86,6 +94,12 @@ void ASlidingDoor::Tick(float DeltaTime)
 					RotationInProgress = true;
 				}
 			}
+
+			if(!DoorCenter || RotatingFirst)
+			{
+				ActivateLights();
+			}
+
 			ActionInProgress = false;
 			DoorOpen = !DoorOpen;
 		}
@@ -101,6 +115,8 @@ void ASlidingDoor::Interact_Implementation(AActor* Caller)
 {
 	if(!ActionInProgress && !RotationInProgress)
 	{
+		ActivateLights();
+
 		if(!DoorOpen)
 		{
 			if(DoorCenter)
@@ -142,6 +158,10 @@ void ASlidingDoor::RotateCenter(float DeltaTime)
 		alpha = 1;
 		RotationInProgress = false;
 		CurrentTime = 0;
+		if(!ActionInProgress)
+		{
+			ActivateLights();
+		}
 	}
 
 	FRotator DoorRotation = FMath::Lerp(StartRotation, EndRotation, alpha);

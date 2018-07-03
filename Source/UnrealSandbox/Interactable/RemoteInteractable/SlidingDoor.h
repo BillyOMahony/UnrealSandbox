@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "RemoteInteractableActor.h"
+#include "AlarmLightActor.h"
 #include "SlidingDoor.generated.h"
 
 /*
@@ -34,6 +35,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	void ActivateLights();
 	void RotateCenter(float DeltaTime);
 
 public:	
@@ -81,4 +83,9 @@ private:
 
 	bool RotationInProgress = false;
 	bool RotatingFirst = true;
+
+	// Lights
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	TArray<AAlarmLightActor *> DoorLights;
+
 };
