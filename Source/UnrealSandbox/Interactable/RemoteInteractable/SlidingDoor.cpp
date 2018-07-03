@@ -9,7 +9,11 @@ ASlidingDoor::ASlidingDoor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	Door = CreateDefaultSubobject<UStaticMeshComponent>(FName(TEXT("Door")));
+	if(DoorCenter)
+	{
+		DoorCenter = CreateDefaultSubobject<UStaticMeshComponent>(FName(TEXT("DoorCenter")));
+	}
 }
 
 void ASlidingDoor::Initialise()
@@ -31,6 +35,14 @@ void ASlidingDoor::Initialise()
 
 	case EDoorOpenDirection::DOD_Right:
 		DoorOpenPosition = DoorClosedPosition + GetActorRightVector() * DoorMovementDistance;
+		break;
+
+	case EDoorOpenDirection::DOD_Forward:
+		DoorOpenPosition = DoorClosedPosition + GetActorForwardVector() * -DoorMovementDistance;
+		break;
+
+	case EDoorOpenDirection::DOD_Back:
+		DoorOpenPosition = DoorClosedPosition + GetActorForwardVector() * DoorMovementDistance;
 		break;
 	}
 }

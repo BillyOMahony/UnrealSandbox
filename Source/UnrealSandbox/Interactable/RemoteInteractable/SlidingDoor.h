@@ -16,7 +16,9 @@ enum class EDoorOpenDirection : uint8
 	DOD_Up		UMETA(DisplayName = "Up"),
 	DOD_Down	UMETA(DisplayName = "Down"),
 	DOD_Left	UMETA(DisplayName = "Left"),
-	DOD_Right	UMETA(DisplayName = "Right")
+	DOD_Right	UMETA(DisplayName = "Right"),
+	DOD_Forward UMETA(DisplayName = "Forward"),
+	DOD_Back	UMETA(DisplayName = "Back")
 };
 
 UCLASS()
@@ -56,6 +58,12 @@ private:
 
 	bool ActionInProgress = false;
 	bool DoorOpen = false;
+
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	UStaticMeshComponent* Door = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Setup")
+	UStaticMeshComponent* DoorCenter = nullptr;
 
 	FVector StartPos;
 	FVector EndPos;

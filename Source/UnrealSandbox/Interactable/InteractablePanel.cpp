@@ -18,6 +18,7 @@ void AInteractablePanel::BeginPlay()
 	Super::BeginPlay();
 	if(ensure(InteractText))
 		InteractText->SetVisibility(false);
+	ensure(ActorToInteractWith);
 }
 
 // Called every frame
@@ -29,6 +30,7 @@ void AInteractablePanel::Tick(float DeltaTime)
 
 void AInteractablePanel::OnInteract_Implementation(AActor * Caller)
 {
+	if (!ActorToInteractWith)return;
 	ActorToInteractWith->Execute_Interact(ActorToInteractWith, this);
 }
 
