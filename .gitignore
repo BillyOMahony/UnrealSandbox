@@ -12,5 +12,4 @@ Saved
 *.suo
 *.xcodeproj
 *.xcworkspace
-Content/Assets/Maps/SpaceStation_BuiltData.uasset
-Content/Assets/Maps/SpaceStation_BuiltData.uasset
+*/SpaceStation_BuiltData.uasset
