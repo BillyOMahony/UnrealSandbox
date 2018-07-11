@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "InteractablePanel.h"
+#include "RemoteInteractable/RemoteInteractableActor.h"
 
 // Sets default values
 AInteractablePanel::AInteractablePanel()
@@ -8,16 +9,21 @@ AInteractablePanel::AInteractablePanel()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	
-	Panel = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Panel"));
+	Panel = CreateDefaultSubobject<UStaticMeshComponent>(FName("Panel"));
 	SetRootComponent(Panel);
+
+	InteractText = CreateDefaultSubobject<UChildActorComponent>(FName("InteractText"));
+	InteractText->AttachToComponent(Panel, FAttachmentTransformRules::KeepRelativeTransform);
+	InteractText->SetupAttachment(Panel);
 }
 
 // Called when the game starts or when spawned
 void AInteractablePanel::BeginPlay()
 {
 	Super::BeginPlay();
-	if(ensure(InteractText))
+	if (ensure(InteractText)) {
 		InteractText->SetVisibility(false);
+	}
 	ensure(ActorToInteractWith);
 }
 
@@ -53,13 +59,3 @@ void AInteractablePanel::EndFocus_Implementation()
 	if (!ensure(InteractText)) return;
 	InteractText->SetVisibility(false);
 }
-
-/*
- *	Called From Blueprint
- *	Sets the reference to the Interact Text
- */
-void AInteractablePanel::SetInteractText(UChildActorComponent * InteractText)
-{
-	this->InteractText = InteractText;
-}
-

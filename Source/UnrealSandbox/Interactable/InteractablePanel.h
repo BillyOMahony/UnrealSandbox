@@ -4,9 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "Interactable.h"
-#include "RemoteInteractable/SlidingDoor.h"
 #include "GameFramework/Actor.h"
 #include "InteractablePanel.generated.h"
+
+// Forward Declarations
+class ARemoteInteractableActor;
 
 UCLASS()
 class UNREALSANDBOX_API AInteractablePanel : public AActor, public IInteractable
@@ -26,27 +28,24 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-		void OnInteract(AActor* Caller);
+	void OnInteract(AActor* Caller);
 	virtual void OnInteract_Implementation(AActor* Caller) override;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-		void StartFocus();
+	void StartFocus();
 	virtual void StartFocus_Implementation() override;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Interaction")
-		void EndFocus();
+	void EndFocus();
 	virtual void EndFocus_Implementation() override;
 
-	UFUNCTION(BlueprintCallable, Category = "Interaction")
-		void SetInteractText(UChildActorComponent * InteractText);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
+	UChildActorComponent * InteractText = nullptr;
 
-private:
-	UPROPERTY(EditAnywhere, Category = "Interaction")
-		UChildActorComponent * InteractText = nullptr;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
+	UStaticMeshComponent * Panel = nullptr;
 
-	UPROPERTY(EditAnywhere, Category = "Interaction")
-		UStaticMeshComponent * Panel = nullptr;
-
-	UPROPERTY(EditAnywhere, Category = "Interaction")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
 	ARemoteInteractableActor* ActorToInteractWith = nullptr;
+
 };
