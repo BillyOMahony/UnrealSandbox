@@ -105,6 +105,11 @@ void AUnrealSandboxCharacter::BeginPlay()
 	}
 }
 
+void AUnrealSandboxCharacter::SetInputEnabled(bool InputEnabled)
+{
+	this->InputEnabled = InputEnabled;
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -140,8 +145,10 @@ void AUnrealSandboxCharacter::SetupPlayerInputComponent(class UInputComponent* P
 
 void AUnrealSandboxCharacter::OnFire()
 {
+	if (!InputEnabled) return;
+
 	// try and fire a projectile
-	if (ProjectileClass != NULL)
+	if (ProjectileClass != NULL )
 	{
 		UWorld* const World = GetWorld();
 		if (World != NULL)
@@ -256,6 +263,8 @@ void AUnrealSandboxCharacter::EndTouch(const ETouchIndex::Type FingerIndex, cons
 
 void AUnrealSandboxCharacter::MoveForward(float Value)
 {
+	if (!InputEnabled) return;
+
 	if (Value != 0.0f)
 	{
 		// add movement in that direction
@@ -265,6 +274,8 @@ void AUnrealSandboxCharacter::MoveForward(float Value)
 
 void AUnrealSandboxCharacter::MoveRight(float Value)
 {
+	if (!InputEnabled) return;
+
 	if (Value != 0.0f)
 	{
 		// add movement in that direction
@@ -274,18 +285,24 @@ void AUnrealSandboxCharacter::MoveRight(float Value)
 
 void AUnrealSandboxCharacter::TurnAtRate(float Rate)
 {
+	if (!InputEnabled) return;
+
 	// calculate delta for this frame from the rate information
 	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
 }
 
 void AUnrealSandboxCharacter::LookUpAtRate(float Rate)
 {
+	if (!InputEnabled) return;
+
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
 bool AUnrealSandboxCharacter::EnableTouchscreenMovement(class UInputComponent* PlayerInputComponent)
 {
+	if (!InputEnabled) return true;
+
 	if (FPlatformMisc::SupportsTouchInput() || GetDefault<UInputSettings>()->bUseMouseForTouch)
 	{
 		PlayerInputComponent->BindTouch(EInputEvent::IE_Pressed, this, &AUnrealSandboxCharacter::BeginTouch);

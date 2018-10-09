@@ -52,6 +52,9 @@ protected:
 	virtual void BeginPlay();
 
 public:
+	UFUNCTION(BlueprintCallable)
+	void SetInputEnabled(bool InputEnabled);
+
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
@@ -118,6 +121,8 @@ protected:
 	void EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location);
 	void TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location);
 	TouchData	TouchItem;
+
+	bool InputEnabled = true;
 	
 protected:
 	// APawn interface
