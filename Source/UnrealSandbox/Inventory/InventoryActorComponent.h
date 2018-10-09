@@ -4,32 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "../Item/ItemActor.h"
 #include "InventoryActorComponent.generated.h"
 // Runtime/Engine/Classes/Engine/Texture2D.h
 
-class UTexture2D;
-
-USTRUCT(BlueprintType)
-struct FInventory
-{
-	GENERATED_USTRUCT_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString Name;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString Description;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bIsStackable;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UTexture2D * Thumbnail;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TEnumAsByte<EItemType> ItemType;
-};
+class AItemActor;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UNREALSANDBOX_API UInventoryActorComponent : public UActorComponent
@@ -47,6 +25,10 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+private:
+	UPROPERTY(EditAnywhere)
+	TArray<TSubclassOf<AItemActor>> Inventory;
 
 		
 	
